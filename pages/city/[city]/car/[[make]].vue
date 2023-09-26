@@ -1,6 +1,18 @@
 <template>
-    <div>
-        <NavBar />
-        <h1>City and Make</h1>
+  <div>
+    <NavBar />
+    <div
+      class="mx-auto mt-4 max-w-7xl space-y-4 px-4 xs:px-8 sm:px-10 lg:px-16 pb-16 w-3/5"
+    >
+      <div class="mt-32 flex">
+        <!-- CARS SIDE BAR -->
+        <CarSideBar />
+        <!-- CARS SIDE BAR -->
+
+        <!-- CAR CARDS -->
+        <CarCards />
+        <!-- CAR CARDS -->
+      </div>
     </div>
+  </div>
 </template>
