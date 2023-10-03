@@ -1,7 +1,12 @@
 <template>
     <div>
-        <NavBar />
         <CarHero />
     </div>
-  </template>
+</template>
+
+<script setup>
+    useHead({
+        title: 'Cartrader'
+    })
+</script>
   

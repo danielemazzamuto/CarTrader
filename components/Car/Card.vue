@@ -1,17 +1,44 @@
 <template>
-    <div class="shadow border w-full overflow-hidden mb-5 cursor-pointer h-[200px]">
-    <div class="flex h-full">
-        <img src="https://cdn.24.co.za/files/Cms/General/d/11243/23d2e72e489a4303ab77bea14d2bf30a.jpg" alt="" class="w-[300px] h-full">
-        
-        <div class="p-4 flex flex-col">
+    <div
+      class="relative shadow border w-full overflow-hidden mb-5 cursor-pointer h-[200px]"
+    >
+      <img
+      :src="favored ? heartFilled : heartOutline"
+      @click="emit('favor', car.id)"
+      class="absolute w-7 right-5 top-2 z-20"
+      alt=""
+      >
+      <div
+      @click="navigateTo(`/car/${car.name}-${car.id}`)"
+      class="flex h-full"
+      >        
+      <NuxtImg :src="car.url" alt="" class="w-[300px] h-full" />
+      
+      <div class="p-4 flex flex-col">
         <div>
-            <h1 class="text-2xl text-blue-700">
-            BMW X4 E-Full
-            </h1>
-            <p class="text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <h1 class="text-2xl text-blue-700">
+            {{ car.name }}
+          </h1>
+          <p class="text-gray-700">{{ car.description }}</p>
         </div>
-        <h1 class="mt-auto text-xl">$69,555</h1>
-        </div>
+        <h1 class="mt-auto text-xl">${{ car.price }}</h1>
+      </div>
     </div>
     </div>
 </template>
+
+<script setup>
+import heartOutline from '@/assets/heartOutline.png';
+import heartFilled from '@/assets/heartFilled.png';
+
+const props = defineProps({
+  car: Object,
+  favored: Boolean
+});
+
+const emit = defineEmits(['favor'])
+
+// make the useState unique, by passing the id
+//const favored = useState(`favored-${car.id}`, () => false);
+
+</script>
