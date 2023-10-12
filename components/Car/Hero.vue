@@ -11,3 +11,8 @@
     <div class="z-1 absolute w-full h-full bg-black opacity-50"></div>
     </div>
 </template>
+
+<script setup>
+const runtimeConfig = useRuntimeConfig()
+console.log(runtimeConfig.supabaseKey);
+</script>
