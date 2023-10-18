@@ -6,7 +6,8 @@
 
 <script setup>
 definePageMeta({
-  layout: 'custom'
+  layout: 'custom',
+  middleware: ['auth'],
 })
 
 const { id } = useRoute().params;
