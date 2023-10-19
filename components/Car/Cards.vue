@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-const { cars } = useCars();
+const { cars } = defineProps(['cars']);
 
 // persist state in localStorage
 const favorite = useLocalStorage(
