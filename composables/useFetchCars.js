@@ -1,16 +1,16 @@
 export default async (city, filters) => {
-  try {
-    const { data } = await useFetch(`/api/cars/${city}`, {
+
+    const { data, error, refresh } = await useFetch(`/api/cars/${city}`, {
       params: {
         ...filters,
       }
     })
-    console.log(data);
-    return data;
-  } catch (error) {
+    
+  if(error.value) {
     throw createError({
       ...error.value,
       statusMessage: 'Unable to fetch cars',
     })
   }
+  return {data, refresh};
 }

@@ -14,19 +14,15 @@
 definePageMeta({
   layout: 'custom',
 })
-const { cars } = useCars();
+
+const route = useRoute();
+const {data: car} = await useFetchCar(route.params.id);
+
 const { capitalizeFirstLetter } = useUtilities();
-
-const { name, id } = useRoute().params;
 useHead({
-  title: `${capitalizeFirstLetter(name)}`
+  title: `${capitalizeFirstLetter(route.params.name)}`
 })
 
-const car = computed(() => {
-   const carFound = cars.find(c => c.id === +id)
-   if (carFound) return carFound;
-   throw createError({statusCode: '400', message: `The car with the ID of ${id} was not found!`})
-})
 
 
 </script>
