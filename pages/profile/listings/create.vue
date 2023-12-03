@@ -25,6 +25,10 @@
         @change-input="onChangeInput" 
       />
       <CarAdImage @change-input="onChangeInput" />
+      <div>
+        <button @click="handleSubmit" :disabled="isButtonDisabled" class="bg-blue-400 text-white rounded py-2 px-7 mt-3">Submit</button>
+        <p v-if="errorMessage" class="mt-3 text-red-400"> {{ errorMessage }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +40,8 @@ definePageMeta({
 })
 
 const { makes } = useCars();
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
 
 const info = useState('adInfo', ()=>{
   return {
@@ -45,12 +51,15 @@ const info = useState('adInfo', ()=>{
     miles: '',
     price: '',
     city: '',
-    seats: '',
+    numberOfSeats: '',
     features: '',
+    price: '',
     description: '',
     image: null
   }
 })
+
+const errorMessage = ref("");
 
 const inputs = ref([
   {
@@ -80,11 +89,17 @@ const inputs = ref([
   {
     id: 5,
     title: 'Number of Seats *',
-    name: 'seats',
+    name: 'numberOfSeats',
     placeholder: '5'
   },
   {
     id: 6,
+    title: 'Price *',
+    name: 'price',
+    placeholder: '25000'
+  },
+  {
+    id: 7,
     title: 'Features *',
     name: 'features',
     placeholder: 'Leather Interior, No Accidents'
@@ -93,5 +108,44 @@ const inputs = ref([
 
 const onChangeInput = (data, name)=>{
   info.value[name] = data;
+}
+
+const isButtonDisabled = computed(() => {
+  for (const key in info.value) {
+    if (!info.value[key]) return true;
+    return false;
+  }
+})
+
+const handleSubmit = async () => {
+  const fileName = Math.floor(Math.random() * 1000000000000000000);
+  const {data, error} = await supabase.storage.from("images").upload("public/" + fileName, info.value.image);
+  if(error){
+    return errorMessage.value = "Cannot upload image";
+  }
+
+  const body = {
+    ...info.value,
+    city: info.value.city.toLowerCase(),
+    features: info.value.features.split(", "),
+    numberOfSeats: +info.value.numberOfSeats,
+    miles: +info.value.miles,
+    price: +info.value.price,
+    year: +info.value.year,
+    name: `${info.value.make} ${info.value.model}`,
+    listerId: user.value.id,
+    image: data.path
+  }
+
+  try {
+    const response = await $fetch("/api/car/listings", {
+      method: "post",
+      body
+    })
+    navigateTo("/profile/listings")
+  } catch (err) {
+    errorMessage.value = err.statusMessage;
+    await supabase.storage.from("images").remove(data.path)
+  }
 }
 </script>

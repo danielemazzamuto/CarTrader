@@ -1,10 +1,10 @@
 <template>
     <div class="mt-10">
-        <NuxtImg class="w-full" :src="car.url" alt="" />
+        <NuxtImg class="w-full" :src="`${config.public.supabase.url}/storage/v1/object/public/images/${car.image}`" alt="" />
         <h1 class="mt-10 text-4xl">{{car.name}}</h1>
         <div class="text-slate-500 flex text-lg mt-3 border-b pb-5 justify-between">
         <div class="flex">
-            <p class="mr-2">{{ car.seats }} Seats</p>
+            <p class="mr-2">{{ car.numberOfSeats }} Seats</p>
             <p class="mr-2">|</p>
             <p class="mr-2">{{ car.miles }} miles</p>
         </div>
@@ -16,5 +16,6 @@
 </template>
 
 <script setup>
-const { car } = defineProps(['car'])
+const { car } = defineProps(['car']);
+const config = useRuntimeConfig();
 </script>

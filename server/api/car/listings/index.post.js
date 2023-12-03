@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const schema = Joi.object({
   make: Joi.string().required(),
   model: Joi.string().required(),
-  year: Joi.number().min(1999).max(new Date().getFullYear() + 1),
+  year: Joi.number(),
   miles: Joi.number().required().min(0),
   city: Joi.string().min(2).required(),
   numberOfSeats: Joi.number().min(1).max(10).required(),
@@ -36,6 +36,7 @@ export default defineEventHandler(async (event) => {
   const {
     make,
     model,
+    year,
     miles,
     city,
     numberOfSeats,
@@ -46,6 +47,8 @@ export default defineEventHandler(async (event) => {
     price,
     name,
   } = body;
+
+  console.log(year);
 
   // Create car to store it to the db
   const car = await prisma.car.create({

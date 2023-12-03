@@ -5,8 +5,11 @@ const prisma = new PrismaClient();
 
 // create schema for validation
 const schema = Joi.object({
-  email: Joi.string().required(),
-  phone: Joi.string().required().min(5),
+  email: Joi.string().required().email({
+    minDomainSegments: 2,
+    tlds: {allow: ["com", "net"]}
+  }),
+  phone: Joi.string().required().length(10).pattern(/^[0-9]+$/),
   message: Joi.string().min(20).required(),
   name: Joi.string().required(),
 })
@@ -16,7 +19,7 @@ export default defineEventHandler(async (event) => {
   // Read the form data with readBody
   const body = await readBody(event);
   // Validate the data (we installed joi)
-  const {error, value} = await schema.validate(body);
+  const {error} = await schema.validate(body);
 
   if(error){
     throw createError({

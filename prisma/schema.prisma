@@ -17,7 +17,6 @@ model Car {
   numberOfSeats   Int
   miles           Int
   price           Int
-  year            Int
   image           String
   features        String[]
   description     String
@@ -35,5 +34,5 @@ model Message {
   phone           String
   message         String
   listingId       Int
-  listing         Car     @relation(fields: [listingId], references: [id])
+  listing         Car     @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }

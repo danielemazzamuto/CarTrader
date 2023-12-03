@@ -26,8 +26,8 @@ definePageMeta({
 
 const { capitalizeFirstLetter } = useUtilities();
 
-
 const { city } = useRoute().params;
+
 useHead({
   title: `Cars in ${capitalizeFirstLetter(city)}`
 })

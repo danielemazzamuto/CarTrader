@@ -78,6 +78,7 @@ const priceRange = ref({
   error: false
 })
 
+
 const priceRangeText = computed(()=>{
   const minPrice = route.query.minPrice;
   const maxPrice = route.query.maxPrice;

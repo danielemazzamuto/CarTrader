@@ -1,6 +1,6 @@
 <template>
   <div class="rounded shadow mt-20">
-    <CarMessageCard />
+    <CarMessageCard v-for="message in messages" :key="message.id" :message="message"/>
   </div>
 </template>
 
@@ -10,6 +10,6 @@ definePageMeta({
   middleware: ['auth'],
 })
 
-const { id } = useRoute().params;
-
+const route = useRoute();
+const {data: messages, error} = await useFetch(`/api/car/listings/${route.params.id}/message`)
 </script>

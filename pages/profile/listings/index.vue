@@ -9,18 +9,30 @@
       v-for="listing in listings"
       :key="listing.id"
       :listing="listing"
+      @handle-delete="deleteListing"
       /> 
     </div>
   </div>
 </template>
 
 <script setup>
+
 definePageMeta({
   layout: 'custom',
   middleware: ['auth']
 })
 
-const { listings } = useCars();
+// get data listings
+const user = useSupabaseUser();
+const {data: listings, refresh} = await useFetch(`/api/car/listings/user/${user.value.id}`);
+
+// delete listing
+const deleteListing = async (listingId) => {
+  await useFetch(`/api/car/listings/${listingId}`, {
+    method: 'DELETE'
+  });
+  listings.value = listings.value.filter(listing => listing.id !== listingId)
+}
 </script>
 
 <style scoped>
