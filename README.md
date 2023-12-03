@@ -2,6 +2,10 @@
 
 At the moment, the only car available as a test is in "milan", so please, type "milan" in the search bar!
 
+The Login is available with Google!
+If you login, you will be able to add a listing, view or delete your own listings!
+Users can also send messages to the lister!
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
