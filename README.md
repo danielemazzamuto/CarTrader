@@ -1,4 +1,5 @@
 **How to use**
+
 At the moment, the only car available as a test is in "milan", so please, type "milan" in the search bar!
 
 # Nuxt 3 Minimal Starter
